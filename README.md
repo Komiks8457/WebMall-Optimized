@@ -6,4 +6,5 @@ WebMall-Optimized, a rewritten version of ISROR_WebApps(WebMall)
 * Optimized code logics in front/backend
 * Optimized the caching mechanism
 * Optimized the SQL requests
+* Optimized session handling
 * and more...
