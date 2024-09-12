@@ -9,3 +9,7 @@ WebMall-Optimized, a rewritten version of ISROR_WebApps(WebMall)
 * Optimized session handling
 * Better security
 * and more...
+
+**Client side mandatory patch**
+
+* Enable `FEATURE_BROWSER_EMULATION = 99999` for `sro_client.exe`
