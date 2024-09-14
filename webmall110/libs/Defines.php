@@ -22,3 +22,6 @@ define('ITEMBUYGAME',   "/ItemBuyGame" . EXT);
 define('CACHE_ENABLE',  $_config['cache']['enable']);
 define('CACHE_MAX_AGE', $_config['cache']['max-age']);
 define('CACHE_DIR',     ABSPATH . $_config['cache']['directory'] . "/");
+
+//Server
+define('SERVER_IP',     $_config['server']['ip']);

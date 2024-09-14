@@ -2,7 +2,7 @@
 function checkSearchForm() {
     switch (getCookie('loc')) {
         case 'us':
-            var msg = 'Please enter the words for search.'
+            var msg = 'Enter the item name to search.'
             break;
         case 'tr':
             var msg = 'Arama için kelimeleri giriniz.'
@@ -17,12 +17,10 @@ function checkSearchForm() {
             var msg = '.رجاء ادخال الكلمة للبحث'
             break;
         default:
-            var msg = 'Please enter the words for search.'
+            var msg = 'Enter the item name to search.'
     }
     if (isField($('#searchWord').val()) == 0) {
         modalAlert(msg);
-        $('#searchWord').val('');
-        $('#searchWord').focus();
         return false;
     }
     return true;

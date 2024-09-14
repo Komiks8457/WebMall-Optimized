@@ -46,8 +46,6 @@ switch ($fn->st3) {
     default:
         $_xpp = "mall-list";
 }
-
-$fn->GetSilk();
 ?>
 <!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -59,15 +57,15 @@ $fn->GetSilk();
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="Keywords" content="<?= KEYWORD ?>">
     <meta name="Description" content="<?= DESC ?>">
-    <link type="text/css" rel="stylesheet" media="all" href="assets/css/webmall_game.css?ver=<?= rand(1111, 9999) ?>" />
+    <link type="text/css" href="assets/css/webmall_game.css?ver=<?= rand(1111, 9999) ?>" rel="stylesheet" media="all" />
     <script type="text/javascript" src="assets/js/jquery-1.4.2.min.js"></script>
     <script type="text/javascript" src="assets/js/jquery.jcarousel.min.js"></script>
-    <script type="text/javascript" src="assets/js/jquery.pngFix.js?v=5645646"></script>
+    <script type="text/javascript" src="assets/js/jquery.pngFix.js?v=567567"></script>
     <script type="text/javascript" src="assets/js/jquery.sexy-combo.min.js"></script>
     <script type="text/javascript" src="assets/js/jquery.cluetip.js"></script>
     <script type="text/javascript" src="assets/js/jquery.scroll.js"></script>
-    <script type="text/javascript" src="assets/js/ingame_shell.js?v=5235"></script>
-    <script type="text/javascript" src="assets/js/_common.js?v=525"></script>
+    <script type="text/javascript" src="assets/js/ingame_shell.js?v=567567"></script>
+    <script type="text/javascript" src="assets/js/_common.js?v=657567"></script>
 </head>
 <body class="mig" ondragstart="return false" onselectstart="return false">
     <div id="wrap" class="<?= $_xpp ?>">
@@ -94,21 +92,6 @@ $fn->GetSilk();
                             <dd><span id="past3months"><?= ($fn->silkinfo['usage3months'] ?? 0) ?>&nbsp;<img src="assets/images/silk_premium.png" alt="" /></dd>
                             <dt>Silk :</dt>
                             <dd><span id="silk"><?= ($fn->silkinfo['silk'] ?? 0) ?>&nbsp;<img src="assets/images/silk.png" alt="" /></dd>
-                        </dl>
-                    </div>
-                </div>
-                <div class="pod silkowned">
-                    <div class="run">
-                        <h2>Battle Pass</h2>
-                        <dl class="status">
-                            <dt>Current Exp. (%) :</dt>
-                            <dd><span id="silk_prem">99.99</dd>
-                            <dt>Current Lvl. : </dt>
-                            <dd><span id="past3months">50</dd>
-                            <dt>Reward Tier : </dt>
-                            <dd><span id="latestmonth">Free</dd>
-                            <dt>Silk :</dt>
-                            <dd><span id="silk">0</dd>
                         </dl>
                     </div>
                 </div>
@@ -181,13 +164,13 @@ switch ($fn->st3) {
 <?php if ($_pagination): ?>
                     <div class="pagex">
                         <div id="paginate">
-                            <img src="assets/images/arrow_left.png" title="Prev" style="vertical-align:middle;cursor:pointer;margin-right:1px;" onclick="gotoLocation(this, '<?= $fn->NavLinkBuilder(null, null, null, null, $_prv) ?>')" />
+                            <img src="assets/images/arrow_left.png" title="Prev" style="vertical-align:middle;cursor:pointer;margin-right:1px;" onclick="gotoLocation(this, '<?= $fn->PageLinkBuilder($_prv) ?>')" />
 <?php for ($i = 1; $i <= $_xpc; $i++): if ($_xpn == $i): ?>
                             <span class="pager" style="margin:0 0.5px;" title="Page <?= $i ?>">[<?= $i ?>]</span>
 <?php else:?>
-                            <a href="<?= $fn->NavLinkBuilder(null, null, null, null, $i) ?>" style="margin:0 0.5px;" title="Page <?= $i ?>"><?= $i ?></a>
+                            <a href="<?= $fn->PageLinkBuilder($i) ?>" style="margin:0 0.5px;" title="Page <?= $i ?>"><?= $i ?></a>
 <?php endif; endfor; ?>
-                            <img src="assets/images/arrow_right.png" title="Next" style="vertical-align:middle;cursor:pointer;margin-left:1px;" onclick="gotoLocation(this, '<?= $fn->NavLinkBuilder(null, null, null, null, $_nxt) ?>')" />
+                            <img src="assets/images/arrow_right.png" title="Next" style="vertical-align:middle;cursor:pointer;margin-left:1px;" onclick="gotoLocation(this, '<?= $fn->PageLinkBuilder($_nxt) ?>')" />
                         </div>
                     </div>
 <?php endif; ?>
@@ -207,5 +190,25 @@ switch ($fn->st3) {
     </div>
 </body>
 <?php if ($fn->st3 == 6) include('ItemBuyGame_Helper.php'); ?>
+<script type="text/javascript">
+    $(document).ready(function(){
+        setInterval(function () {
+            $.ajax({
+                url: "heartbeat.html",
+                method: "GET",
+                cache: false,
+                async: true,
+                data: { ping : 1 },
+                success: function(response) {
+                    if (response.pong < 0)
+                        gotoLocation(null, response.message);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    if (response.pong < 0)
+                        gotoLocation(null, response.message);
+                }
+            });
+        }, 5000);
+    });
 </script>
 </html>

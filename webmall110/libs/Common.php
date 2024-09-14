@@ -30,7 +30,17 @@ class Common extends Database
             mkdir(CACHE_DIR);
     }
 
-    public function NavLinkBuilder($st0 = null, $st1 = null, $st2 = null, $st3 = null, $page = null)
+    public function BuyLinkBuilder($pid, $buy)
+    {
+        return $this->NavLinkBuilder(null, null, null, null, null, $pid, $buy);
+    }
+
+    public function PageLinkBuilder($page)
+    {
+        return $this->NavLinkBuilder(null, null, null, null, $page);
+    }
+
+    public function NavLinkBuilder($st0 = null, $st1 = null, $st2 = null, $st3 = null, $page = null, $pid = null, $buy = null)
     {
         $_params = [];
 
@@ -52,6 +62,14 @@ class Common extends Database
 
         if (!is_null($page)) {
             $_params['page'] = $page;
+        }
+
+        if (!is_null($pid)) {
+            $_params['pid'] = $pid;
+        }
+
+        if (!is_null($buy)) {
+            $_params['buy'] = $buy;
         }
         
         $queryString = http_build_query($_params);
@@ -96,9 +114,13 @@ class Common extends Database
             $this->session->shard_id    = 323;
             $this->session->pjid        = $this->GetPortalJID();
             $this->session->auth        = true;
+
+            $this->GetSilk(); //run once per session?
         }
         
         $this->loc = $this->session->loc;
+        
+        $this->silkinfo = $this->session->silkinfo;
 
         return $this->session->auth;
     }
@@ -124,8 +146,6 @@ class Common extends Database
             'usage3months'  => $_result[0]['Usage3Months'],
             'silk'          => $_result[0]['Silk']
         ];
-
-        $this->silkinfo = $this->session->silkinfo;
     }
 
     public function CertifyKey()

@@ -14,7 +14,13 @@ if (is_null($_req)) {
 
 switch ($_req) {
     case stristr($_req, "addtocart"):
-        require('modules/ItemBuyGame_API_AddToCart.php');
+        require('modules/CGI_AddToCart.php');
+        break;
+    case stristr($_req, "billing"):
+        require('modules/CGI_Billing.php');
+        break;
+    case stristr($_req, "heartbeat"):
+        require('modules/CGI_Heartbeat.php');
         break;
     case stristr($_req, "gateway"):
         require('modules/ItemBuyGame_Gateway.php');

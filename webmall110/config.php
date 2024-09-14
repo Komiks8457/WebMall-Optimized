@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     define( 'ABSPATH', __DIR__ . '/' );
 }
 
-$_config['site'] = [
+$_config['site']    = [
     'title'         => 'LASTROGUE Online',
     'description'   => 'LASTROGUE Online',
     'keyword'       => 'LASTROGUE Online',
@@ -14,15 +14,17 @@ $_config['site'] = [
     'extension'     => '.html',                         //page extension
 ];
 
-$_config['mssql'] = [
+$_config['mssql']   = [
     'host'          => '192.168.0.110',                 //if custom port then IP:Port
     'userid'        => 'webmall',
     'passwd'        => '#Swastika369',
     'database'      => 'SILKROAD_R_ACCOUNT',
 ];
 
-$_config['cache'] = [
+$_config['cache']   = [
     'enable'        => true,
     'max-age'       => 86400,
     'directory'     => 'cache'
 ];
+
+$_config['server']  = ['ip' => '192.168.3.111'];

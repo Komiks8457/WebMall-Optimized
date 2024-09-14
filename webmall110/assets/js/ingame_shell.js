@@ -96,27 +96,14 @@
 
     //DOM is ready
     $(function () {
-        // Disabling right-click
-        $(document).bind('contextmenu', function (e) {
-            e.preventDefault();
-        });
-
-        // Disabling text selection using jQuery
-        $(document).bind('mousedown', function (e) {
-            if (e.button === 2 || e.which === 3) { // Right or middle mouse button
-                return false;
-            }
-        });
-
-        // Ensuring clicks are allowed
-        $(document).bind('click', function () {
-            return true;
-        });
-
         $('#lead .search, .intro .tag').pngFix();
         $('#content .category').droppy({ speed: 100 });
-        $('#screen .cropped').scrollbar(); // Custom Scrollbar
-        $('.qty input').qtyAdj(); // Quantity Adjustment
+
+        // Custom Scrollbar
+        $('#screen .cropped').scrollbar();
+
+        // Quantity Adjustment
+        $('.qty input').qtyAdj(); 
 
         // Custom Dropdown Select
         $('.server select').sexyCombo({
@@ -153,6 +140,20 @@
             width: '204px',
             showTitle: false,
             clickThrough: true
+        });
+
+        $(document).bind('contextmenu', function (e) {
+            e.preventDefault();
+        });
+
+        $(document).bind('mousedown', function (e) {
+            if (e.button === 2 || e.which === 3) {
+                return false;
+            }
+        });
+
+        $(document).bind('click', function () {
+            return true;
         });
     });
 })(jQuery);
