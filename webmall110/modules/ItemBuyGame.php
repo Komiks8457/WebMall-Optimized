@@ -60,12 +60,12 @@ switch ($fn->st3) {
     <link type="text/css" href="assets/css/webmall_game.css?ver=<?= rand(1111, 9999) ?>" rel="stylesheet" media="all" />
     <script type="text/javascript" src="assets/js/jquery-1.4.2.min.js"></script>
     <script type="text/javascript" src="assets/js/jquery.jcarousel.min.js"></script>
-    <script type="text/javascript" src="assets/js/jquery.pngFix.js?v=567567"></script>
+    <script type="text/javascript" src="assets/js/jquery.pngFix.js?v=5345"></script>
     <script type="text/javascript" src="assets/js/jquery.sexy-combo.min.js"></script>
     <script type="text/javascript" src="assets/js/jquery.cluetip.js"></script>
     <script type="text/javascript" src="assets/js/jquery.scroll.js"></script>
-    <script type="text/javascript" src="assets/js/ingame_shell.js?v=567567"></script>
-    <script type="text/javascript" src="assets/js/_common.js?v=657567"></script>
+    <script type="text/javascript" src="assets/js/ingame_shell.js?v=5345"></script>
+    <script type="text/javascript" src="assets/js/_common.js?v=45345"></script>
 </head>
 <body class="mig" ondragstart="return false" onselectstart="return false">
     <div id="wrap" class="<?= $_xpp ?>">
@@ -190,25 +190,4 @@ switch ($fn->st3) {
     </div>
 </body>
 <?php if ($fn->st3 == 6) include('ItemBuyGame_Helper.php'); ?>
-<script type="text/javascript">
-    $(document).ready(function(){
-        setInterval(function () {
-            $.ajax({
-                url: "heartbeat.html",
-                method: "GET",
-                cache: false,
-                async: true,
-                data: { ping : 1 },
-                success: function(response) {
-                    if (response.pong < 0)
-                        gotoLocation(null, response.message);
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    if (response.pong < 0)
-                        gotoLocation(null, response.message);
-                }
-            });
-        }, 5000);
-    });
-</script>
 </html>

@@ -115,6 +115,24 @@ function addReserved(element, package_id) {
     $(element).removeAttr("disabled");
 }
 
+function getStatus(jid)
+{
+    $.ajax({
+        url: "heartbeat.html",
+        method: "GET",
+        cache: false,
+        async: true,
+        data: { ping : jid },
+        success: function(response) {
+            if (response.pong < 0)
+                gotoLocation(null, "/error.html?msg=" + response.error);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+                gotoLocation(null, "/error.html");
+        }
+    });
+}
+
 function getCookie(name) {
     var nameOfCookie = name + "=";
     var x = 0;

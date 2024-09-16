@@ -5,10 +5,10 @@ $_json = ['pong'=>-999, 'message'=>null];
 
 if ($_pid === FALSE || !$fn->ResumeSession()) {
     $_json['pong'] = -998;
-    $_json['message'] = null;
+    $_json['error'] = 8;
 } else {
     $_json['pong'] = -1;
-    $_json['message'] = null;
+    $_json['error'] = 9;
 }
 
 header('Content-Type: application/json');

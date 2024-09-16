@@ -1,9 +1,8 @@
 <?php
+use Medoo\Medoo;
 
 require_once ("Defines.php");
 require_once ("Medoo.php");
-
-use Medoo\Medoo;
 
 class Database {
 
@@ -14,29 +13,37 @@ class Database {
 
     private function DbConnect($dbname)
     {
-        $_dbname = (is_null($dbname) ? SQL_DB_NAME : $dbname);
-
-        if (is_null($this->medoo))
+        try
         {
-            $this->medoo = new Medoo([
-                'type' => 'mssql',
-                'host' => SQL_DB_HOST,
-                'username' => SQL_DB_USERID,
-                'password' => SQL_DB_PASSWD,
-                'database' => $_dbname,
-                'connection_pooling' => true,
-                'trust_server_certificate' => true
-            ]);
+            $_dbname = (is_null($dbname) ? SQL_DB_NAME : $dbname);
+
+            if (is_null($this->medoo))
+            {
+                $this->medoo = new Medoo([
+                    'type' => 'mssql',
+                    'host' => SQL_DB_HOST,
+                    'username' => SQL_DB_USERID,
+                    'password' => SQL_DB_PASSWD,
+                    'database' => $_dbname,
+                    'connection_pooling' => true,
+                    'trust_server_certificate' => true
+                ]);
+            }
+
+            if ($this->medoo->error)
+            {
+                $_error = $this->medoo->errorInfo;
+                Common::WriteLog($_error[2], __FUNCTION__);
+                return false;
+            }
+
+            return true;
         }
-
-        if ($this->medoo->error)
+        catch (Exception $e)
         {
-            $_error = $this->medoo->errorInfo;
-            Common::WriteLog($_error[2], __FUNCTION__);
+            Common::WriteLog($e, __FUNCTION__);
             return false;
         }
-
-        return true;
     }
 
     protected function Select($table, $columns, $where, $dbname = null)
@@ -44,16 +51,24 @@ class Database {
         if (!$this->DbConnect($dbname))
             return false;
 
-        $_select = $this->medoo->select($table, $columns, $where);
-        
-        if ($this->medoo->error)
+        try
         {
-            $_error = $this->medoo->errorInfo;
-            Common::WriteLog($_error[2], __FUNCTION__);
+            $_select = $this->medoo->select($table, $columns, $where);
+        
+            if ($this->medoo->error)
+            {
+                $_error = $this->medoo->errorInfo;
+                Common::WriteLog($_error[2], __FUNCTION__);
+                return false;
+            }
+
+            return $_select;
+        }
+        catch (Exception $e)
+        {
+            Common::WriteLog($e, __FUNCTION__);
             return false;
         }
-
-        return $_select;
     }
 
     protected function Get($table, $columns, $where, $dbname = null)
@@ -61,16 +76,24 @@ class Database {
         if (!$this->DbConnect($dbname))
             return false;
 
-        $_get = $this->medoo->get($table, $columns, $where);
-        
-        if ($this->medoo->error)
+        try
         {
-            $_error = $this->medoo->errorInfo;
-            Common::WriteLog($_error[2], __FUNCTION__);
+            $_get = $this->medoo->get($table, $columns, $where);
+            
+            if ($this->medoo->error)
+            {
+                $_error = $this->medoo->errorInfo;
+                Common::WriteLog($_error[2], __FUNCTION__);
+                return false;
+            }
+    
+            return $_get;
+        }
+        catch (Exception $e)
+        {
+            Common::WriteLog($e, __FUNCTION__);
             return false;
         }
-
-        return $_get;
     }
 
     protected function Update($table, $data, $where, $dbname = null)
@@ -78,16 +101,24 @@ class Database {
         if (!$this->DbConnect($dbname))
             return false;
 
-        $_update = $this->medoo->update($table, $data, $where);
-
-        if ($this->medoo->error)
+        try
         {
-            $_error = $this->medoo->errorInfo;
-            Common::WriteLog($_error[2], __FUNCTION__);
+            $_update = $this->medoo->update($table, $data, $where);
+    
+            if ($this->medoo->error)
+            {
+                $_error = $this->medoo->errorInfo;
+                Common::WriteLog($_error[2], __FUNCTION__);
+                return false;
+            }
+    
+            return $_update;
+        }
+        catch (Exception $e)
+        {
+            Common::WriteLog($e, __FUNCTION__);
             return false;
         }
-
-        return $_update;
     }
 
     protected function Insert($table, $values, $dbname = null)
@@ -113,7 +144,6 @@ class Database {
             Common::WriteLog($e, __FUNCTION__);
             return false;
         }
-        
     }
 
     protected function Exists($table, $where, $dbname = null)
@@ -146,16 +176,24 @@ class Database {
         if (!$this->DbConnect($dbname))
             return false;
 
-        $_count = $this->medoo->count($table, $where);
-
-        if ($this->medoo->error)
+        try
         {
-            $_error = $this->medoo->errorInfo;
-            Common::WriteLog($_error[2], __FUNCTION__);
+            $_count = $this->medoo->count($table, $where);
+
+            if ($this->medoo->error)
+            {
+                $_error = $this->medoo->errorInfo;
+                Common::WriteLog($_error[2], __FUNCTION__);
+                return false;
+            }
+    
+            return $_count; 
+        }
+        catch (Exception $e)
+        {
+            Common::WriteLog($e, __FUNCTION__);
             return false;
         }
-
-        return $_count;
     }
 
     protected function Exec($query, $dbname = null)
@@ -169,13 +207,20 @@ class Database {
                 $_exec = $this->medoo->query($query[0], $query[1])->fetchAll();
             else
                 $_exec = $this->medoo->query($query)->fetchAll();
+
+            if ($this->medoo->error)
+            {
+                $_error = $this->medoo->errorInfo;
+                Common::WriteLog($_error[2], __FUNCTION__);
+                return false;
+            }
+
+            return $_exec;
         }
         catch (Exception $e)
         {
             Common::WriteLog($e, __FUNCTION__);
             return false;
         }
-
-        return $_exec;
     }
 }

@@ -1,12 +1,13 @@
 <?php
-
 require_once ("Database.php");
 require_once ("Session.php");
+require_once ("Mailer.php");
 
 class Common extends Database
 {
     private ?Session $session = null;
     private ?Database $database = null;
+    private ?Mailer $mailer = null;
 
     public ?array $newitems = null;
     public ?array $bestitems = null;
@@ -25,6 +26,7 @@ class Common extends Database
     public function __construct()
     {
         $this->database = new Database();
+        $this->mailer = new Mailer();
 
         if (!is_dir(CACHE_DIR))
             mkdir(CACHE_DIR);
