@@ -1,3 +1,4 @@
+<?php if ($fn->st3 == 1 || $fn->st3 == 2): ?>
                 <ul class="category">
                     <!-- New & Best -->
                     <li class="<?=($fn->st1 == 0 ? "cur" : null)?>" id="cate"><a href="<?=($fn->st1 == 0 && $fn->st2==0 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=0&st2=0&st3=" . $fn->st3)?>"><?=($fn->GetCategory(0, 0)['name'])?></a></li>
@@ -75,3 +76,4 @@
                     <li class="<?=($fn->st1 == 7 ? "cur" : null)?>" id="cate_7"><a href="<?=($fn->st1 == 7 && $fn->st2 == 1 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=7&st2=1&st3=" . $fn->st3)?>"><?=($fn->GetCategory(7, 1)['name'])?></a></li>
 <?php endif; ?>
                 </ul>
+<?php endif; ?>

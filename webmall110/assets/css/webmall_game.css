@@ -250,8 +250,9 @@ h1 { float:left; width:147px; min-height:25px; _height:25px; padding:10px 22px; 
 .buyitem .details .chk { padding:2px 0; }
 .buyitem .detail-view { width:507px; margin:10px 0 20px; padding:10px 10px 10px 11px; background-color:#322F26; }
 .buyitem .detail-view h3 { margin-bottom:10px; color:#918564; font-weight:normal; }
-.buyitem .msg-nesilk { width:382px; padding:20px 50px 25px 90px; background:#26231F url(../images/icon_caution.png?v=64) no-repeat 50px 22px; text-align:left; }
+.buyitem .msg-nesilk { width:382px; padding:20px 50px 25px 90px; background:#26231F url(../images/icon_caution.png?v=64) no-repeat 50px 22px; text-align:left; margin-top: 15px; }
 .buyitem .msg-nesilk .remainging { margin-bottom:3px; }
+.buyitem .msg-result { margin-top: 15px; }
 .buyitem .details .total .gift { float:left; margin-left:4px; width:127px; height:18px; background:url(../images/gift_input_bg.png?v=64) no-repeat; }
 .buyitem .details .total .gift input { width:127px; height:18px; background:transparent; border:0; margin-top:-1px; color:#914B00; font-weight:normal; font-size:11px; padding-left:2px; }
 .buyitem .details .total .gift .val { position: relative; color:#914B00; font-weight:normal; font-size:11px; margin-top:1px; padding-left:2px; text-align:left; }
@@ -503,9 +504,6 @@ div.sexy-month div.icon { left:23px; }
 .modalAlert .button:hover { background: url(../images/button_87x27.png?v=64) no-repeat 0 -27px; color:#16C2CD; } /* hover */
 .modalAlert .button:active { background: url(../images/button_87x27.png?v=64) no-repeat 0 -54px; color: gray; } /* click */
 .modalAlert .button:disabled { background: url(../images/button_87x27.png?v=64) no-repeat 0 -81px; color: lightgray;} /* disabled */
-
-/* cover */
-#cover { position:fixed; opacity:0.1; z-index:1; margin:0px; padding:0px; left:0; top:0; width:800px; height:569px; }
 
 /* bpexp */
 .bpexp { width:200px; background:#080706; }

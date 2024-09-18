@@ -81,7 +81,7 @@
                         target.val(currentVal + 1);
                     }
                 }
-                ItemAmountChange(target.val());
+                ItemAmountChange();
             });
 
             $(this).parents('.qty').find('.minus').click(function () {
@@ -89,13 +89,13 @@
                 if (!isNaN(currentVal) && currentVal > 1) {
                     target.val(currentVal - 1);
                 }
-                ItemAmountChange(target.val());
+                ItemAmountChange();
             });
         });
     };
 
     //DOM is ready
-    $(function () {
+    $(document).ready(function () {
         $('#lead .search, .intro .tag').pngFix();
         $('#content .category').droppy({ speed: 100 });
 
@@ -103,7 +103,7 @@
         $('#screen .cropped').scrollbar();
 
         // Quantity Adjustment
-        $('.qty input').qtyAdj(); 
+        $('.qty input').qtyAdj();
 
         // Custom Dropdown Select
         $('.server select').sexyCombo({

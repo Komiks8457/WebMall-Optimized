@@ -60,12 +60,12 @@ switch ($fn->st3) {
     <link type="text/css" href="assets/css/webmall_game.css?ver=<?= rand(1111, 9999) ?>" rel="stylesheet" media="all" />
     <script type="text/javascript" src="assets/js/jquery-1.4.2.min.js"></script>
     <script type="text/javascript" src="assets/js/jquery.jcarousel.min.js"></script>
-    <script type="text/javascript" src="assets/js/jquery.pngFix.js?v=5345"></script>
+    <script type="text/javascript" src="assets/js/jquery.pngFix.js"></script>
     <script type="text/javascript" src="assets/js/jquery.sexy-combo.min.js"></script>
     <script type="text/javascript" src="assets/js/jquery.cluetip.js"></script>
     <script type="text/javascript" src="assets/js/jquery.scroll.js"></script>
-    <script type="text/javascript" src="assets/js/ingame_shell.js?v=5345"></script>
-    <script type="text/javascript" src="assets/js/_common.js?v=45345"></script>
+    <script type="text/javascript" src="assets/js/ingame_shell.js?v=5235"></script>
+    <script type="text/javascript" src="assets/js/_common.js?v=54235"></script>
 </head>
 <body class="mig" ondragstart="return false" onselectstart="return false">
     <div id="wrap" class="<?= $_xpp ?>">
@@ -85,13 +85,13 @@ switch ($fn->st3) {
                         <h2>Silk Owned</h2>
                         <dl class="status">
                             <dt>Premium Silk :</dt>
-                            <dd><span id="silk_prem"><?= ($fn->silkinfo['premium'] ?? 0) ?>&nbsp;<img src="assets/images/silk_premium.png" alt="" /></dd>
+                            <dd><span id="premium"><?= number_format($fn->silkinfo['premium'] ?? 0) ?></span>&nbsp;<img src="assets/images/silk_premium.png" alt="" /></dd>
                             <dt> -Month Usage : </dt>
-                            <dd><span id="latestmonth"><?= ($fn->silkinfo['usagemonth'] ?? 0) ?>&nbsp;<img src="assets/images/silk_premium.png" alt="" /></dd>
+                            <dd><span id="usagemonth"><?= $fn->NumberFormatTh($fn->silkinfo['usagemonth'] ?? 0) ?></span>&nbsp;<img src="assets/images/silk_premium.png" alt="" /></dd>
                             <dt> -3Month Usage : </dt>
-                            <dd><span id="past3months"><?= ($fn->silkinfo['usage3months'] ?? 0) ?>&nbsp;<img src="assets/images/silk_premium.png" alt="" /></dd>
+                            <dd><span id="usage3months"><?= $fn->NumberFormatTh($fn->silkinfo['usage3months'] ?? 0) ?></span>&nbsp;<img src="assets/images/silk_premium.png" alt="" /></dd>
                             <dt>Silk :</dt>
-                            <dd><span id="silk"><?= ($fn->silkinfo['silk'] ?? 0) ?>&nbsp;<img src="assets/images/silk.png" alt="" /></dd>
+                            <dd><span id="silk"><?= number_format($fn->silkinfo['silk'] ?? 0) ?></span>&nbsp;<img src="assets/images/silk.png" alt="" /></dd>
                         </dl>
                     </div>
                 </div>
@@ -108,10 +108,85 @@ switch ($fn->st3) {
             </div>
             <div id="fol" class="setter">
                 <div id="content">
-<?php
-if ($fn->st3 == 1 || $fn->st3 == 2)
-    require('ItemBuyGame_Category.php');
-?>
+<?php if ($fn->st3 == 1 || $fn->st3 == 2): ?>
+                    <ul class="category">
+                        <!-- New & Best -->
+                        <li class="<?=($fn->st1 == 0 ? "cur" : null)?>" id="cate"><a href="<?=($fn->st1 == 0 && $fn->st2==0 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=0&st2=0&st3=" . $fn->st3)?>"><?=($fn->GetCategory(0, 0)['name'])?></a></li>
+                        <!-- Expendables -->
+                        <li class="<?=($fn->st1 == 1 ? "cur" : null)?>" id="cate_1"><a href="<?=($fn->st1 == 1 && $fn->st2 == 1 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=1&st2=1&st3=" . $fn->st3)?>"><?=($fn->GetCategory(1, 1)['name'])?></a>
+                            <div class="lower">
+                                <div class="pointer"></div>
+                                <ul>
+                                    <li><a href="<?=($fn->st1 == 1 && $fn->st2 == 1 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=1&st2=1&st3=" . $fn->st3)?>"><?=($fn->GetCategory(1, 1)['sub_name'])?></a></li>
+                                    <li><a href="<?=($fn->st1 == 1 && $fn->st2 == 2 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=1&st2=2&st3=" . $fn->st3)?>"><?=($fn->GetCategory(1, 2)['sub_name'])?></a></li>
+                                    <li><a href="<?=($fn->st1 == 1 && $fn->st2 == 3 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=1&st2=3&st3=" . $fn->st3)?>"><?=($fn->GetCategory(1, 3)['sub_name'])?></a></li>
+                                    <li><a href="<?=($fn->st1 == 1 && $fn->st2 == 4 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=1&st2=4&st3=" . $fn->st3)?>"><?=($fn->GetCategory(1, 4)['sub_name'])?></a></li>
+                                    <li><a href="<?=($fn->st1 == 1 && $fn->st2 == 5 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=1&st2=5&st3=" . $fn->st3)?>"><?=($fn->GetCategory(1, 5)['sub_name'])?></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <!-- Avatar -->
+                        <li class="<?=($fn->st1 == 2 ? "cur" : null)?>" id="cate_2"><a href="<?=($fn->st1 == 2 && $fn->st2 == 1 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=2&st2=1&st3=" . $fn->st3)?>"><?=($fn->GetCategory(2, 1)['name'])?></a>
+                            <div class="lower">
+                                <div class="pointer"></div>
+                                <ul>
+                                    <li><a href="<?=($fn->st1 == 2 && $fn->st2 == 1 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=2&st2=1&st3=" . $fn->st3)?>"><?=($fn->GetCategory(2, 1)['sub_name'])?></a></li>
+                                    <li><a href="<?=($fn->st1 == 2 && $fn->st2 == 2 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=2&st2=2&st3=" . $fn->st3)?>"><?=($fn->GetCategory(2, 2)['sub_name'])?></a></li>
+                                    <li><a href="<?=($fn->st1 == 2 && $fn->st2 == 3 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=2&st2=3&st3=" . $fn->st3)?>"><?=($fn->GetCategory(2, 3)['sub_name'])?></a></li>
+                                    <li><a href="<?=($fn->st1 == 2 && $fn->st2 == 4 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=2&st2=4&st3=" . $fn->st3)?>"><?=($fn->GetCategory(2, 4)['sub_name'])?></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <!-- Pet -->
+                        <li class="<?=($fn->st1 == 3 ? "cur" : null)?>" id="cate_3"><a href="<?=($fn->st1 == 3 && $fn->st2 == 1 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=3&st2=2&st3=" . $fn->st3)?>"><?=($fn->GetCategory(3, 2)['name'])?></a>
+                            <div class="lower">
+                                <div class="pointer"></div>
+                                <ul>
+                                    <li><a href="<?=($fn->st1 == 3 && $fn->st2 == 2 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=3&st2=2&st3=" . $fn->st3)?>"><?=($fn->GetCategory(3, 2)['sub_name'])?></a></li>
+                                    <li><a href="<?=($fn->st1 == 3 && $fn->st2 == 3 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=3&st2=3&st3=" . $fn->st3)?>"><?=($fn->GetCategory(3, 3)['sub_name'])?></a></li>
+                                    <li><a href="<?=($fn->st1 == 3 && $fn->st2 == 5 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=3&st2=5&st3=" . $fn->st3)?>"><?=($fn->GetCategory(3, 5)['sub_name'])?></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <!-- Fellow -->
+                        <li class="<?=($fn->st1 == 6 ? "cur" : null)?>" id="cate_6"><a href="<?=($fn->st1 == 6 && $fn->st2 == 1 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=6&st2=1&st3=" . $fn->st3)?>"><?=($fn->GetCategory(6, 1)['name'])?></a>
+                            <div class="lower">
+                                <div class="pointer"></div>
+                                <ul>
+                                    <li><a href="<?=($fn->st1 == 6 && $fn->st2 == 1 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=6&st2=1&st3=" . $fn->st3)?>"><?=($fn->GetCategory(6, 1)['sub_name'])?></a></li>
+                                    <li><a href="<?=($fn->st1 == 6 && $fn->st2 == 2 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=6&st2=2&st3=" . $fn->st3)?>"><?=($fn->GetCategory(6, 2)['sub_name'])?></a></li>
+                                    <li><a href="<?=($fn->st1 == 6 && $fn->st2 == 3 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=6&st2=3&st3=" . $fn->st3)?>"><?=($fn->GetCategory(6, 3)['sub_name'])?></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <!-- Premium -->
+                        <li class="<?=($fn->st1 == 4 ? "cur" : null)?>" id="cate_4"><a href="<?=($fn->st1 == 4 && $fn->st2 == 1 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=4&st2=1&st3=" . $fn->st3)?>"><?=($fn->GetCategory(4, 1)['name'])?></a>
+                            <div class="lower">
+                                <div class="pointer"></div>
+                                <ul>
+                                    <li><a href="<?=($fn->st1 == 4 && $fn->st2 == 1 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=4&st2=1&st3=" . $fn->st3)?>"><?=($fn->GetCategory(4, 1)['sub_name'])?></a></li>
+                                    <li><a href="<?=($fn->st1 == 4 && $fn->st2 == 2 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=4&st2=2&st3=" . $fn->st3)?>"><?=($fn->GetCategory(4, 2)['sub_name'])?></a></li>
+                                    <li><a href="<?=($fn->st1 == 4 && $fn->st2 == 3 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=4&st2=3&st3=" . $fn->st3)?>"><?=($fn->GetCategory(4, 3)['sub_name'])?></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <!-- Alchemy -->
+                        <li class="<?=($fn->st1 == 5 ? "cur" : null)?>" id="cate_5"><a href="<?=($fn->st1 == 5 && $fn->st2 == 1 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=5&st2=1&st3=" . $fn->st3)?>"><?=($fn->GetCategory(5, 1)['name'])?></a>
+                            <div class="lower">
+                                <div class="pointer"></div>
+                                <ul>
+                                    <li><a href="<?=($fn->st1 == 5 && $fn->st2 == 1 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=5&st2=1&st3=" . $fn->st3)?>"><?=($fn->GetCategory(5, 1)['sub_name'])?></a></li>
+                                    <li><a href="<?=($fn->st1 == 5 && $fn->st2 == 2 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=5&st2=2&st3=" . $fn->st3)?>"><?=($fn->GetCategory(5, 2)['sub_name'])?></a></li>
+                                    <li><a href="<?=($fn->st1 == 5 && $fn->st2 == 3 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=5&st2=3&st3=" . $fn->st3)?>"><?=($fn->GetCategory(5, 3)['sub_name'])?></a></li>
+                                </ul>
+                            </div>
+                        </li>
+<?php if ($fn->st0 == 3): ?>
+                        <!-- SUPPORTER -->
+                        <li class="<?=($fn->st1 == 7 ? "cur" : null)?>" id="cate_7"><a href="<?=($fn->st1 == 7 && $fn->st2 == 1 ? "#" : ITEMBUYGAME . "?st0=" . $fn->st0 . "&st1=7&st2=1&st3=" . $fn->st3)?>"><?=($fn->GetCategory(7, 1)['name'])?></a></li>
+<?php endif; ?>
+                    </ul>
+<?php endif; ?>
                     <div id="screen">
                         <div class="opener mold"></div>
                         <div class="cropped">
@@ -139,22 +214,22 @@ switch ($fn->st3) {
     case 0:
     case 1:
     case 2:
-        require('ItemBuyGame_List.php');
+        include 'ItemBuyGame_List.php';
         break;
     case 3:
-        require('ItemBuyGame_Reserve.php');
+        include 'ItemBuyGame_Reserve.php';
         break;
     case 4:
-        require('ItemBuyGame_History.php');
+        include 'ItemBuyGame_History.php';
         break;
     case 6:
-        require('ItemBuyGame_Buy.php');
+        include 'ItemBuyGame_Buy.php';
         break;
     case 69:
-        require('ItemBuyGame_SearchResult.php');
+        include 'ItemBuyGame_SearchResult.php';
         break;
     default:
-        require('ItemBuyGame_List.php');
+        include 'ItemBuyGame_List.php';
         break;
 }
 ?>
@@ -189,5 +264,5 @@ switch ($fn->st3) {
         </div>
     </div>
 </body>
-<?php if ($fn->st3 == 6) include('ItemBuyGame_Helper.php'); ?>
+<?php if ($fn->st3 == 6) include 'ItemBuyGame_Helper.php'; ?>
 </html>

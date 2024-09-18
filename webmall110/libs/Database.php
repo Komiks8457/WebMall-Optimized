@@ -1,8 +1,8 @@
 <?php
 use Medoo\Medoo;
 
-require_once ("Defines.php");
-require_once ("Medoo.php");
+require_once "Defines.php";
+require_once "Medoo.php";
 
 class Database {
 

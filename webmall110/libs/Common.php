@@ -1,7 +1,7 @@
 <?php
-require_once ("Database.php");
-require_once ("Session.php");
-require_once ("Mailer.php");
+require_once "Database.php";
+require_once "Session.php";
+require_once "Mailer.php";
 
 class Common extends Database
 {
@@ -86,8 +86,8 @@ class Common extends Database
 
         if ($this->session->startSession())
         {
-            $this->session->jid = $jid;
             $this->session->key = strtolower($key);
+            $this->session->jid = $jid;
             $this->session->loc = $loc;
             return true;
         }
@@ -115,6 +115,7 @@ class Common extends Database
 
             $this->session->shard_id    = 323;
             $this->session->pjid        = $this->GetPortalJID();
+            $this->session->ipv4        = $this->UserIPv4();
             $this->session->auth        = true;
 
             $this->GetSilk(); //run once per session?
@@ -127,7 +128,7 @@ class Common extends Database
         return $this->session->auth;
     }
     
-    public function GetSilk()
+    public function GetSilk($reload = false)
     {
         $_jid = $this->session->jid;
 
@@ -148,6 +149,9 @@ class Common extends Database
             'usage3months'  => $_result[0]['Usage3Months'],
             'silk'          => $_result[0]['Silk']
         ];
+
+        if ($reload)
+            $this->silkinfo = $this->session->silkinfo;
     }
 
     public function CertifyKey()
@@ -265,6 +269,62 @@ class Common extends Database
         return $_data[0];
     }
 
+    public function BuyNewItem($pid, $invoiceid, $cpinvoiceid)
+    {
+        $_item = $this->GetItemByPID($pid);
+
+        if ($_item === FALSE) {
+            self::WriteLog("UNKNOWN PACKAGE_ID[$pid]", __FUNCTION__);
+            return false;
+        }
+
+        $_totalprice = 0;
+
+        if ($_item['discount_rate']) {
+            $_bcmul = bcmul($_item['silk_price'], $_item['discount_rate']);
+            $_price = bcsub($_item['silk_price'], bcdiv($_bcmul, '100'));
+            $_totalprice = $_price;
+        } else {
+            $_totalprice = $_item['silk_price'];
+        }
+
+        // Premium silk can be use to purchase silk mall items
+        if ($_item['silk_type'] == 0 && $_totalprice > $this->silkinfo['silk'] + $this->silkinfo['premium'])
+            return false;
+
+        if ($_item['silk_type'] == 3 && $_totalprice > $this->silkinfo['premium'])
+            return false;
+
+        $_query = [
+            'EXEC dbo.WEB_ITEM_BUY_X :a,:b,:c,:d,:e,:f,:g,:h,:i,:j,:k,:l',
+            [
+                ':a'=>$this->session->jid,
+                ':b'=>$_item['silk_type'],
+                ':c'=>$_totalprice,
+                ':d'=>323,
+                ':e'=>'TEST',
+                ':f'=>$_item['package_id'],
+                ':g'=>1, //1 = Webmall, 2 = Event
+                ':h'=>'$game',
+                ':i'=>$this->UserIPv4(),
+                ':j'=>$invoiceid,
+                ':k'=>$cpinvoiceid,
+                ':l'=>0 //TODO gift to JID
+            ]
+        ];
+
+        $_purchase = $this->database->Exec($_query);
+
+        if ($_purchase !== FALSE && $_purchase['RetVal'] < 0) {
+            self::WriteLog("FAILED TO PURCHASE PACKAGE_ID[$pid]", __FUNCTION__);
+            return false;
+        }
+
+        $this->GetSilk(true);
+
+        return true;
+    }
+
     public function AddToCart($pid)
     {
         $_jid = $this->session->jid;
@@ -310,7 +370,7 @@ class Common extends Database
     public function GetItemByPID($pid)
     {
         $_data = $this->VW_WEB_MALL_LIST(['package_id'=> $pid]);
-        return ($_data[0] == FALSE ? null : $_data[1][0]);
+        return ($_data[0] === FALSE ? false : $_data[1][0]);
     }
 
     public function VW_WEB_MALL_LIST($array, $loc = 'us')
@@ -407,6 +467,50 @@ class Common extends Database
         return unserialize(file_get_contents($_cachefile))['count'] ?? 0;
     }
 
+    public static function UserIPv4()
+    {
+        if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
+            $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+            $_SERVER['HTTP_CLIENT_IP'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+        }
+
+        $_client  = $_SERVER['HTTP_CLIENT_IP'];
+        $_forward = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        $_remote  = $_SERVER['REMOTE_ADDR'];
+
+        if (filter_var($_client, FILTER_VALIDATE_IP)) {
+            $ip = $_client;
+        } elseif (filter_var($_forward, FILTER_VALIDATE_IP)) {
+            $ip = $_forward;
+        } else {
+            $ip = $_remote;
+        }
+
+        return $ip;
+    }
+
+    public static function RandomNumbers()
+    {
+        //just a random number generator
+        return time() + random_int(111111111,999999999);
+    }
+
+    public static function NumberFormatTh($x)
+	{
+		$x = (int) preg_replace('/[^0-9]/', '', $x);
+		if ($x >= 1000) {
+			$rn = round($x);
+			$format_number = number_format($rn);
+			$ar_nbr = explode(',', $format_number);
+			$x_parts = array('K', 'M', 'B', 'T', 'Q');
+			$x_count_parts = count($ar_nbr) - 1;
+			$dn = $ar_nbr[0] . ((int) $ar_nbr[1][0] !== 0 ? '.' . $ar_nbr[1][0] : '');
+			$dn .= $x_parts[$x_count_parts - 1];
+			return $dn;
+		}
+		return $x;
+	}
+    
     public static function WriteLog($logmsg, $fname = null, $file = "error.log")
     {
         $logdir = ABSPATH . "logs/";

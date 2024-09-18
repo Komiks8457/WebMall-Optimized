@@ -1,24 +1,12 @@
 <script type="text/javascript">
     function Purchase_all(formid) {
-        //전체구매
-        //alert(if($(":checkbox").is(':checked')) $(":checkbox").attr('id'));
-        //	var cboxCnt = $(":checkbox").length
-        //	var checkCnt = 0
-
-        //	for (i=0; i <= cboxCnt -1 ; i++)
-        //	{
-        //		$(":checkbox")[i].checked = true
-        //		checkCnt = checkCnt + 1
-        //	}
         $(formid + ' .details td.chk :checkbox').attr('checked', true);
 
         //	if (checkCnt == 0)
         if ($(formid + ' .details td.chk :checkbox').size() == 0) {
-            alert('Please select the item to purchase');
+            modalAlert('Please select the item to purchase');
             return false;
-        } else {
-            $(formid).submit();
-        }
+        } else $(formid).submit();
     }
 
     function checkForm(formid) {
@@ -33,47 +21,45 @@
         }
 
         if (checkCnt == 0) {
-            alert('Please select the item to purchase');
+            modalAlert('Please select the item to purchase');
             return false;
         }
-
-        //	for (i=0; i <= iboxCnt -1 ; i++)
-        //	{
-        //		var cID = $(":text")[i].id
-        //		if (cID.indexOf('qty') >= 0)
-        //		{
-        //			if (isField($(":text")[i].value) == 0 || $(":text")[i].value == 0)
-        //			{
-        //				$(":text")[i].value = 1
-        //			}
-        //		}
-        //	}
-        //return false;
 
         $(formid).submit();
     }
 
+    function onsubmitform(formid)
+    {
+        $('.btn-ga.btn-ga-purchase').addClass('disabled');
+        $('.btn-ga.btn-ga-confirm').addClass('disabled');
+        return true;
+    }
+
     function ItemAmountChange(qty) {
-        //수량 변경시 호출하는 함수에서 마지막에 이 함수를 호출하지만
-        //Reserved 가아닌 단품구매에서만 사용하는 함수이므로 함수를 2개로 분리하지않고
-        //빈 함수를 만들어서 스크립트 오류가 생기지 않도록 함
-        var fnItemPrice = Number($('#curprice').html().replace(/,/g, ''));
-
-        var total = Intl.NumberFormat('en-US').format(fnItemPrice * qty);
-
-        $('#totalprice').html(total);
+        var totalprice = 0;
+<?php foreach ($_itempid as $_index => $_pid):
+    $_item = $fn->GetItemByPID($_pid);
+    if ($_item['discount_rate'] > 0) {
+        $_bcmul = bcmul($_item['silk_price'], $_item['discount_rate']);
+        $_price = bcsub($_item['silk_price'], bcdiv($_bcmul, '100'));
+    } else $_price = $_item['silk_price'];
+?>
+        totalprice += parseInt($('#qty_<?= $_item['package_id'] ?>').val() * <?= $_price ?>);
+<?php endforeach; ?>
+        $('#totalprice').html(Intl.NumberFormat('en-US').format(totalprice));
     }
 
     //숫자외의 문자 입력 금지
-    $(function() {
+    $(document).ready(function() {
         $('.val input').css('ime-mode', 'disabled');
-        $('.val').keypress(function(event) {
+
+        $('.val').keypress(function(e) {
             //alert(event.which);
-            if (event.which && (event.which > 47 && event.which < 58 || event.which == 8)) {
+            if (e.which && (e.which > 47 && e.which < 58 || e.which == 8)) {
                 //alert('숫자임!');
             } else {
                 //alert('숫자아님!');
-                event.preventDefault();
+                e.preventDefault();
             }
         });
 
@@ -85,5 +71,10 @@
                 $(this).parents('.details').find('td.chk :checkbox').attr('checked', false);
             }
         });
+
+        $('#premium').html("<?= number_format($fn->silkinfo['premium']) ?>");
+        $('#usagemonth').html("<?= $fn->NumberFormatTh($fn->silkinfo['usagemonth']) ?>");
+        $('#usage3months').html("<?= $fn->NumberFormatTh($fn->silkinfo['usage3months']) ?>");
+        $('#silk').html("<?= number_format($fn->silkinfo['silk']) ?>");
     });
 </script>

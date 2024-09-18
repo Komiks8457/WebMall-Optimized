@@ -56,3 +56,7 @@
         Header set Cache-Control "max-age=86400, public"
     </IfModule>
 </FilesMatch>
+
+<IfModule mod_headers.c>
+	Header set X-Powered-By "Your-Mother"
+</IfModule>

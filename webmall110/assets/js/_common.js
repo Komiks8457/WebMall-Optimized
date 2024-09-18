@@ -156,7 +156,10 @@ function modalAlert(contents, title, okcancel, callback) {
     okcancel = okcancel !== undefined ? okcancel : false;
     callback = typeof callback === 'function' ? callback : function() {};
 
+    //title
     $('.modalAlert .title .val').html(title.replace(/\n/g, '<br>'));
+
+    //content
     $('.modalAlert .content .val').html(contents.replace(/\n/g, '<br>'));
 
     if (!okcancel) {

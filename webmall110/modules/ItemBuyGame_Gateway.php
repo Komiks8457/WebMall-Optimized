@@ -22,7 +22,7 @@ if (!isset($_COOKIE['ext']) || $_COOKIE['ext'] != EXT)
 if (!isset($_COOKIE['loc']) || $_COOKIE['loc'] != $_loc)
     setcookie("loc", $_loc, ['samesite'=>'strict']);
 
-$_url = (SSL ? "https://" : "http://") . DOMAIN . ITEMBUYGAME . (!is_null($_pid) ? "&pid=" . $_pid : null);
+$_url = (SSL ? "https://" : "http://") . DOMAIN . ITEMBUYGAME . (!is_null($_pid) ? "?pid=" . $_pid . '&st3=6&buy=1' : null);
 
 ?>
 <!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>

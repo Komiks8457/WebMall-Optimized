@@ -1,8 +1,8 @@
 <?php
 ob_start();
 
-include("config.php");
-require("libs/Common.php");
+include "config.php";
+require "libs/Common.php";
 $fn = new Common();
 
 $_req = $_GET['req'] ?? null;

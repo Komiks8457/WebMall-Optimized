@@ -1,7 +1,7 @@
 <?php if ($fn->st1 == 0 && $fn->st2 == 0 && $fn->NewBestItems('new', 3)): ?>
                             <h3><div><?=($fn->GetCategory(0, 0)['sub_name'][0])?></div></h3>
                             <ul class="list">
-<?php foreach ($fn->newitems as $_item) : ?>
+<?php foreach ($fn->newitems as $_item): ?>
                                 <li class="<?= ($fn->st0 == 0 ? "silk" : "prem") ?>" style="padding-bottom: 5px;">
                                     <div class="intro">
                                         <a rel="#item-<?= $_item['package_id'] ?>" class="pic"><img src="assets/itemlist_pac/<?= $_item['package_code'] ?>.jpg" alt="" /></a>
@@ -22,7 +22,7 @@
                                     <div class="price">
                                         <span class="type"><img src="assets/images/<?= $_silkicon[$_item['silk_type']] ?>" alt="" /></span>
                                         <strong class="val">
-                                            <strong class="current"><?= $_item['silk_price'] ?>&nbsp;Silk</strong>
+                                            <strong class="current"><?= number_format($_item['silk_price']) ?>&nbsp;Silk</strong>
                                         </strong>
                                     </div>
                                     <div class="action">
@@ -42,7 +42,7 @@
                             <div style="margin-top:15px;"></div>
                             <h3><div><?=($fn->GetCategory(0, 0)['sub_name'][1])?></div></h3>
                             <ul class="list">
-<?php foreach ($fn->bestitems as $_item) : ?>
+<?php foreach ($fn->bestitems as $_item): ?>
                                 <li class="<?= ($fn->st0 == 0 ? "silk" : "prem") ?>" style="padding-bottom: 5px;">
                                     <div class="intro">
                                         <a rel="#item-<?= $_item['package_id'] ?>" class="pic"><img src="assets/itemlist_pac/<?= $_item['package_code'] ?>.jpg" alt="" /></a>
@@ -63,7 +63,7 @@
                                     <div class="price">
                                         <span class="type"><img src="assets/images/<?= $_silkicon[$_item['silk_type']] ?>" alt="" /></span>
                                         <strong class="val">
-                                            <strong class="current"><?= $_item['silk_price'] ?>&nbsp;Silk</strong>
+                                            <strong class="current"><?= number_format($_item['silk_price']) ?>&nbsp;Silk</strong>
                                         </strong>
                                     </div>
                                     <div class="action">
@@ -82,7 +82,7 @@
 <?php endif; if ($fn->st1 > 0 && $fn->st2 > 0 && $fn->GetMallItems($_xpt, $_xps)): ?>
                             <h3><div><?=($fn->GetCategory($fn->st1, $fn->st2)['sub_name'])?></div></h3>
                             <ul class="list">
-<?php foreach ($fn->mallitems as $_item) : ?>
+<?php foreach ($fn->mallitems as $_item): ?>
                                 <li class="<?= ($fn->st0 == 0 ? "silk" : "prem") ?>" style="padding-bottom: 5px;">
                                     <div class="intro">
                                         <a rel="#item-<?= $_item['package_id'] ?>" class="pic"><img src="assets/itemlist_pac/<?= $_item['package_code'] ?>.jpg" alt="" /></a>
@@ -105,7 +105,7 @@
                                     <div class="price">
                                         <span class="type"><img src="assets/images/<?= $_silkicon[$_item['silk_type']] ?>" alt="" /></span>
                                         <strong class="val">
-                                            <strong class="current"><?= $_item['silk_price'] ?>&nbsp;Silk</strong>
+                                            <strong class="current"><?= number_format($_item['silk_price']) ?>&nbsp;Silk</strong>
                                         </strong>
                                     </div>
                                     <div class="action">
